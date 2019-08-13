@@ -1,4 +1,5 @@
 const LeakDetector = require('jest-leak-detector').default;
+const bluebird = require('bluebird');
 
 const createObservable = require('./index');
 
@@ -143,4 +144,18 @@ test('Should allow setting value with callback that gets called with previous va
   onOffToggle.set(previous => !previous);
 
   expect(onOffToggle.valueOf()).toEqual(false);
+});
+
+test('Use Bluebird with timeout', async () => {
+  createObservable.Promise = bluebird;
+  const onOffToggle = createObservable(true);
+  let error;
+
+  try {
+    await onOffToggle.waitFor(false).timeout(1000);
+  } catch (e) {
+    error = e;
+  }
+
+  expect(error).toHaveProperty('message', 'operation timed out');
 });

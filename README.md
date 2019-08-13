@@ -1,6 +1,6 @@
 # @kingstinct/observable
 
-This is a simple dependency-free library to expose functionality to work with and observe value changes in JavaScript. Promises don't handle multiple state changes, and using more advanced libraries for this should not be necessary.
+Easy-to-use and dependency-free observable library. `await` a specific value. Observe value changes.
 
 ## Examples
 
@@ -41,6 +41,8 @@ networkStatus.set('offline');   // NetworkStatus changed from wifi to offline
 
 ### Set with previous value
 
+Easy to keep it clean and immutable.
+
 ###### Toggle
 ```javascript
 const isSyncEnabled = observable(false);
@@ -73,4 +75,15 @@ function onClick(){
   buttonPresses.set(value => value + 1);
 }
 
+```
+
+### Bring your own Promise library
+By default native JavaScript Promises are used. But you can override it if you want:
+
+```javascript
+observable.Promise = bluebird; // use Bluebird instead of native promise
+
+const isOnlineObservable = observable(false);
+
+await isOnlineObservable.waitFor(true).timeout(1000); // use Bluebird.timeout
 ```
