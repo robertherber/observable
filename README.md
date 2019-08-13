@@ -13,11 +13,12 @@ const networkStatus = observable('cellular');
 // ...
 
 await networkStatus.waitFor('wifi');
+console.log('Start downloading large file..');
 downloadLargeFile();
 
 // ...
 
-networkStatus.set('wifi');
+networkStatus.set('wifi');      // Start downloading large file..
 ```
 
 ### observe
@@ -29,7 +30,7 @@ const networkStatus = observable('cellular');
 // ...
 
 networkStatus.observe((status, previousStatus) => {
-  console.log('NetworkStatus changed from ' + previousStatus + ' to' + status)
+  console.log('NetworkStatus changed from ' + previousStatus + ' to ' + status)
 });
 
 // ...
@@ -42,7 +43,6 @@ networkStatus.set('offline');   // NetworkStatus changed from wifi to offline
 
 ###### Toggle
 ```
-
 const isSyncEnabled = observable(false);
 
 // ...
@@ -53,14 +53,14 @@ syncChanges();
 
 // ...
 
-isSyncEnabled.set(previousValue => !!previousValue);
+const toggleSync = (previousValue) => !previousValue
+isSyncEnabled.set(toggleSync);
 
 ```
 
 
 ###### Press button 10 times
 ```
-
 const buttonPresses = observable(0);
 
 // ...
