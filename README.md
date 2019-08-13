@@ -7,7 +7,7 @@ This is a simple dependency-free library to expose functionality to work with an
 ### waitFor
 
 ###### Network Status
-```
+```javascript
 const networkStatus = observable('cellular');
 
 // ...
@@ -24,7 +24,7 @@ networkStatus.set('wifi');      // Start downloading large file..
 ### observe
 Observe as the value changes
 
-```
+```javascript
 const networkStatus = observable('cellular');
 
 // ...
@@ -42,7 +42,7 @@ networkStatus.set('offline');   // NetworkStatus changed from wifi to offline
 ### Set with previous value
 
 ###### Toggle
-```
+```javascript
 const isSyncEnabled = observable(false);
 
 // ...
@@ -60,7 +60,7 @@ isSyncEnabled.set(toggleSync);
 
 
 ###### Press button 10 times
-```
+```javascript
 const buttonPresses = observable(0);
 
 // ...
