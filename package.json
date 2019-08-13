@@ -15,7 +15,7 @@
   },
   "repository": "https://github.com/robertherber/observable.git",
   "name": "@kingstinct/observable",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Easy-to-use and dependency-free observable library. `await` a specific value. Observe value changes.",
   "main": "index.js",
   "files": [
