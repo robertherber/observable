@@ -19,7 +19,9 @@
   "description": "Easy-to-use and dependency-free observable library. `await` a specific value. Observe value changes.",
   "main": "index.js",
   "files": [
-    "src/index.js"
+    "src/index.js",
+    "src/react.js",
+    "react.js"
   ],
   "license": "MIT",
   "scripts": {
