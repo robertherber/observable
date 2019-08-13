@@ -1,0 +1,31 @@
+{
+  "name": "@kingstinct/observable",
+  "version": "0.0.1",
+  "description": "Library to handle and observe state changes in a multitude of ways",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint src",
+    "test": "jest",
+    "prepublishOnly": "yarn lint"
+  },
+  "devDependencies": {
+    "eslint": "5",
+    "eslint-config-kingstinct-react-native": "^3.1.2",
+    "eslint-plugin-flowtype": "3",
+    "eslint-plugin-flowtype-errors": "4",
+    "eslint-plugin-import": "2",
+    "eslint-plugin-jest": "22",
+    "eslint-plugin-json": "1",
+    "eslint-plugin-jsx-a11y": "6",
+    "eslint-plugin-lodash-fp": "2",
+    "eslint-plugin-promise": "4",
+    "eslint-plugin-react": "7",
+    "eslint-plugin-react-hooks": "1",
+    "eslint-plugin-react-native": "3",
+    "flow-bin": "*",
+    "jest": "^24.8.0",
+    "jest-leak-detector": "^24.8.0",
+    "weak": "github:lxe/node-weak#node-12"
+  }
+}
