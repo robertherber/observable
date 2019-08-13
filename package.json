@@ -28,7 +28,14 @@
     "prepublishOnly": "yarn lint"
   },
   "devDependencies": {
+    "@babel/plugin-transform-regenerator": "^7.4.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-jest": "^24.8.0",
     "bluebird": "^3.5.5",
+    "core-js": "3",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
     "eslint": "5",
     "eslint-config-kingstinct-react-native": "^3.1.2",
     "eslint-plugin-flowtype": "3",
@@ -45,6 +52,12 @@
     "flow-bin": "*",
     "jest": "^24.8.0",
     "jest-leak-detector": "^24.8.0",
+    "react": ">=16.8.0",
+    "react-dom": "^16.9.0",
+    "react-test-renderer": "^16.9.0",
     "weak": "github:lxe/node-weak#node-12"
+  },
+  "optionalDependencies": {
+    "react": ">=16.8.0"
   }
 }

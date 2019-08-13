@@ -1,6 +1,6 @@
 # @kingstinct/observable
 
-Easy-to-use and dependency-free observable library. `await` a specific value. Observe value changes.
+Easy-to-use and dependency-free observable library. `await` a specific value. Observe value changes. And if you use React there is a hook.
 
 ## Examples
 
@@ -76,6 +76,26 @@ function onClick(){
 }
 
 ```
+
+### Works great with React!
+
+No need to complicate things. We provide a hook - and it works exactly like setState does - directly tied to the backing observable.
+
+```javascript
+import { useObservable } from '@kingstinct/observable/react';
+
+const clickObservable = observable(0);
+
+const MyComponent = () => {
+  const [clickCount, setClickCount] = useObservable(clickObservable);
+
+  const onClick = () => setClickCount((previous) => previous + 1);
+
+  return <Button onClick={onClick}>{ clickCount }</Button>
+}
+
+```
+
 
 ### Bring your own Promise library
 By default native JavaScript Promises are used. But you can override it if you want:

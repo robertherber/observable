@@ -4,158 +4,160 @@ const bluebird = require('bluebird');
 const createObservable = require('./index');
 
 
-test('Should call observe callbacks when changing', () => {
-  const onOffToggle = createObservable(true);
+describe('Core', () => {
+  test('Should call observe callbacks when changing', () => {
+    const onOffToggle = createObservable(true);
 
-  const observedValues = [];
+    const observedValues = [];
 
-  onOffToggle.observe((newValue) => {
-    observedValues.push(newValue);
+    onOffToggle.observe((newValue) => {
+      observedValues.push(newValue);
+    });
+
+    onOffToggle.set(false);
+
+    expect(observedValues).toEqual([false]);
   });
 
-  onOffToggle.set(false);
+  test('Should observe multiple state changes', () => {
+    const onOffToggle = createObservable(true);
 
-  expect(observedValues).toEqual([false]);
-});
+    const observedValues = [];
 
-test('Should observe multiple state changes', () => {
-  const onOffToggle = createObservable(true);
+    onOffToggle.observe((newValue) => {
+      observedValues.push(newValue);
+    });
 
-  const observedValues = [];
+    onOffToggle.set(false);
+    onOffToggle.set(true);
+    onOffToggle.set(false);
 
-  onOffToggle.observe((newValue) => {
-    observedValues.push(newValue);
+    expect(observedValues).toEqual([false, true, false]);
   });
 
-  onOffToggle.set(false);
-  onOffToggle.set(true);
-  onOffToggle.set(false);
+  test('Should get value after changes', () => {
+    const onOffToggle = createObservable(true);
 
-  expect(observedValues).toEqual([false, true, false]);
-});
+    expect(onOffToggle.valueOf()).toEqual(true);
 
-test('Should get value after changes', () => {
-  const onOffToggle = createObservable(true);
+    onOffToggle.set(false);
 
-  expect(onOffToggle.valueOf()).toEqual(true);
+    expect(onOffToggle.valueOf()).toEqual(false);
 
-  onOffToggle.set(false);
+    onOffToggle.set(true);
 
-  expect(onOffToggle.valueOf()).toEqual(false);
-
-  onOffToggle.set(true);
-
-  expect(onOffToggle.valueOf()).toEqual(true);
-});
+    expect(onOffToggle.valueOf()).toEqual(true);
+  });
 
 
-test('Should not observe after unobserving', () => {
-  const onOffToggle = createObservable(true);
+  test('Should not observe after unobserving', () => {
+    const onOffToggle = createObservable(true);
 
-  const observedValues = [];
+    const observedValues = [];
 
-  onOffToggle.set(false);
+    onOffToggle.set(false);
 
-  const observer = (newValue) => {
-    observedValues.push(newValue);
-  };
+    const observer = (newValue) => {
+      observedValues.push(newValue);
+    };
 
-  onOffToggle.observe(observer);
-  onOffToggle.set(true);
-  onOffToggle.unobserve(observer);
+    onOffToggle.observe(observer);
+    onOffToggle.set(true);
+    onOffToggle.unobserve(observer);
 
-  onOffToggle.set(false);
+    onOffToggle.set(false);
 
-  expect(observedValues).toEqual([true]);
-});
+    expect(observedValues).toEqual([true]);
+  });
 
-test('Should not observe after unobserving with returned handle', () => {
-  const onOffToggle = createObservable(true);
+  test('Should not observe after unobserving with returned handle', () => {
+    const onOffToggle = createObservable(true);
 
-  const observedValues = [];
+    const observedValues = [];
 
-  onOffToggle.set(false);
+    onOffToggle.set(false);
 
-  const observer = (newValue) => {
-    observedValues.push(newValue);
-  };
+    const observer = (newValue) => {
+      observedValues.push(newValue);
+    };
 
-  const unobserve = onOffToggle.observe(observer);
-  onOffToggle.set(true);
-  unobserve();
+    const unobserve = onOffToggle.observe(observer);
+    onOffToggle.set(true);
+    unobserve();
 
-  onOffToggle.set(false);
+    onOffToggle.set(false);
 
-  expect(observedValues).toEqual([true]);
-});
+    expect(observedValues).toEqual([true]);
+  });
 
-test('Should not leak after unobserving', () => {
-  const onOffToggle = createObservable(true);
+  test('Should not leak after unobserving', () => {
+    const onOffToggle = createObservable(true);
 
-  let observer = () => {};
+    let observer = () => {};
 
-  let unobserve = onOffToggle.observe(observer);
+    let unobserve = onOffToggle.observe(observer);
 
-  const detector = new LeakDetector(onOffToggle.__listeners[0]);
+    const detector = new LeakDetector(onOffToggle.__listeners[0]);
 
-  expect(detector.isLeaking()).toEqual(true);
+    expect(detector.isLeaking()).toEqual(true);
 
-  unobserve();
+    unobserve();
 
-  unobserve = null;
-  observer = null;
+    unobserve = null;
+    observer = null;
 
-  expect(detector.isLeaking()).toEqual(false);
-});
+    expect(detector.isLeaking()).toEqual(false);
+  });
 
-test('Should not leak after unobserving with function', () => {
-  const onOffToggle = createObservable(true);
+  test('Should not leak after unobserving with function', () => {
+    const onOffToggle = createObservable(true);
 
-  let observer = () => {};
+    let observer = () => {};
 
-  onOffToggle.observe(observer);
+    onOffToggle.observe(observer);
 
-  const detector = new LeakDetector(onOffToggle.__listeners[0]);
+    const detector = new LeakDetector(onOffToggle.__listeners[0]);
 
-  expect(detector.isLeaking()).toEqual(true);
+    expect(detector.isLeaking()).toEqual(true);
 
-  onOffToggle.unobserve(observer);
+    onOffToggle.unobserve(observer);
 
-  observer = null;
+    observer = null;
 
-  expect(detector.isLeaking()).toEqual(false);
-});
+    expect(detector.isLeaking()).toEqual(false);
+  });
 
-test('Should resolve promise(value) when set to expected value', async () => {
-  const onOffToggle = createObservable(true);
+  test('Should resolve promise(value) when set to expected value', async () => {
+    const onOffToggle = createObservable(true);
 
-  const promise = onOffToggle.waitFor(false);
+    const promise = onOffToggle.waitFor(false);
 
-  onOffToggle.set(false);
+    onOffToggle.set(false);
 
-  const resolvedValue = await promise;
+    const resolvedValue = await promise;
 
-  expect(resolvedValue).toEqual({ previousValue: true, currentValue: false });
-});
+    expect(resolvedValue).toEqual({ previousValue: true, currentValue: false });
+  });
 
-test('Should allow setting value with callback that gets called with previous value', async () => {
-  const onOffToggle = createObservable(true);
+  test('Should allow setting value with callback that gets called with previous value', async () => {
+    const onOffToggle = createObservable(true);
 
-  onOffToggle.set(previous => !previous);
+    onOffToggle.set(previous => !previous);
 
-  expect(onOffToggle.valueOf()).toEqual(false);
-});
+    expect(onOffToggle.valueOf()).toEqual(false);
+  });
 
-test('Use Bluebird with timeout', async () => {
-  createObservable.Promise = bluebird;
-  const onOffToggle = createObservable(true);
-  let error;
+  test('Use Bluebird with timeout', async () => {
+    createObservable.Promise = bluebird;
+    const onOffToggle = createObservable(true);
+    let error;
 
-  try {
-    await onOffToggle.waitFor(false).timeout(1000);
-  } catch (e) {
-    error = e;
-  }
+    try {
+      await onOffToggle.waitFor(false).timeout(1000);
+    } catch (e) {
+      error = e;
+    }
 
-  expect(error).toHaveProperty('message', 'operation timed out');
+    expect(error).toHaveProperty('message', 'operation timed out');
+  });
 });

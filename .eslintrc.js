@@ -1,5 +1,5 @@
 module.exports = {
-  "extends": "kingstinct-react-native/base",
+  "extends": "kingstinct-react-native",
   "rules": {
     "flowtype-errors/show-errors": 0,
     "flowtype-errors/show-warnings": 0,
