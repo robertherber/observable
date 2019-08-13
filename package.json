@@ -1,8 +1,18 @@
 {
+  "homepage": "https://github.com/robertherber/observable",
+  "github": "https://github.com/robertherber/observable",
+  "keywords": ["async", "observable", "promises", "javascript", "waitFor"],
+  "author":{
+    "name": "Robert Herber",
+    "email": "robert@herber.me",
+    "url": "https://github.com/robertherber"
+  },
+  "repository": "https://github.com/robertherber/observable.git",
   "name": "@kingstinct/observable",
-  "version": "0.0.1",
-  "description": "Library to handle and observe state changes in a multitude of ways",
+  "version": "0.0.2",
+  "description": "Easy-to-use and dependency-free observable library. `await` a specific value. Observe value changes.",
   "main": "index.js",
+  "files": ["src/index.js"],
   "license": "MIT",
   "scripts": {
     "lint": "eslint src",
