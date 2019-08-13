@@ -6,59 +6,71 @@ This is a simple dependency-free library to expose functionality to work with an
 
 ### waitFor
 
-###### Wait for Network Status
+###### Network Status
 ```
 const networkStatus = observable('cellular');
-networkStatus.set('wifi');
 
-// somewhere else in your code
+// ...
 
 await networkStatus.waitFor('wifi');
 downloadLargeFile();
+
+// ...
+
+networkStatus.set('wifi');
 ```
 
-### Observe
-You can also observe as the value changes:
+### observe
+Observe as the value changes
 
 ```
-const isSyncEnabled = observable(false);
-isSyncEnabled.set(previousValue => !!previousValue);
+const networkStatus = observable('cellular');
 
-// somewhere else in your code
+// ...
 
-isSyncEnabled.observe(value => {
-  updateUI(value);
+networkStatus.observe((status, previousStatus) => {
+  console.log('NetworkStatus changed from ' + previousStatus + ' to' + status)
 });
+
+// ...
+
+networkStatus.set('wifi');      // NetworkStatus changed from cellular to wifi
+networkStatus.set('offline');   // NetworkStatus changed from wifi to offline
 ```
 
 ### Set with previous value
 
-###### Wait for Toggle
+###### Toggle
 ```
 
 const isSyncEnabled = observable(false);
-isSyncEnabled.set(previousValue => !!previousValue);
 
-// somewhere else in your code
+// ...
 
 await isSyncEnabled.waitFor(true);
 updateUI();
 syncChanges();
 
+// ...
+
+isSyncEnabled.set(previousValue => !!previousValue);
+
 ```
 
 
-###### Wait for value to be 100
+###### Press button 10 times
 ```
 
-const buttonPresses = observable(1);
+const buttonPresses = observable(0);
+
+// ...
+
+await buttonPresses.waitFor(10);
+
+// ...
 
 function onClick(){
   buttonPresses.set(value => value + 1);
 }
-
-// somewhere else in your code
-
-await buttonPresses.waitFor(100);
 
 ```
