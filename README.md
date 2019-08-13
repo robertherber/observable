@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/%40kingstinct%2Fobservable.svg)](https://badge.fury.io/js/%40kingstinct%2Fobservable)
+
 # @kingstinct/observable
 
 Easy-to-use and dependency-free observable library. `await` a specific value. Observe value changes. And if you use React there is a hook.
